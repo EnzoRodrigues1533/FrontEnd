@@ -1,0 +1,55 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-curriculo',
+  templateUrl: './curriculo.component.html'
+})
+export class CurriculoComponent {
+  mostrarFormulario = true;
+  curriculos: any[] = [];
+  formData = {
+    nome: '',
+    email: '',
+    cargo: '',
+    arquivo: null as File | null
+  };
+
+  toggleFormulario() {
+    this.mostrarFormulario = true;
+  }
+
+  toggleVisualizacao() {
+    this.mostrarFormulario = false;
+  }
+
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.formData.arquivo = input.files[0];
+      console.log('Arquivo selecionado:', this.formData.arquivo);
+    }
+  }
+
+  cadastrarCurriculo() {
+    if (this.formData.nome && this.formData.email && this.formData.cargo && this.formData.arquivo) {
+      this.curriculos.push({
+        nome: this.formData.nome,
+        email: this.formData.email,
+        cargo: this.formData.cargo,
+        arquivo: this.formData.arquivo
+      });
+
+      // Limpa o formulário
+      this.formData = {
+        nome: '',
+        email: '',
+        cargo: '',
+        arquivo: null
+      };
+
+      alert('Currículo cadastrado com sucesso!');
+      this.mostrarFormulario = false;
+    } else {
+      alert('Por favor, preencha todos os campos e selecione um arquivo.');
+    }
+  }
